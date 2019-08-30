@@ -1,5 +1,12 @@
 <template>
-  <section class="produtos-container">{{produtos}}</section>
+  <section class="produtos-container">
+    <div v-for="produto in produtos" :key="produto.id">
+      <img v-if="produto.fotos" :src="produto.fotos[0].src" :alt="produto.fotos[0].titulo" />
+      <p class="preco">{{produto.preco}}</p>
+      <h2 class="titulo">{{produto.nome}}</h2>
+      <p>{{produto.descricao}}</p>
+    </div>
+  </section>
 </template>
 
 <script>
@@ -11,13 +18,10 @@ export default {
   },
   methods: {
     getProdutos() {
-      fetch({
-        url: "@/api/ranek.json",
-        dataType: "text"
-      })
+      fetch("http://localhost:3000/produto")
         .then(response => response.json())
         .then(response => {
-          this.produtos = response.produtos;
+          this.produtos = response;
         });
     }
   },
